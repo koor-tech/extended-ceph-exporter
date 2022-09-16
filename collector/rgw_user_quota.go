@@ -44,11 +44,11 @@ func (c *RGWUserQuota) Update(ch chan<- prometheus.Metric) error {
 		}
 
 		c.current = prometheus.NewDesc(
-			prometheus.BuildFQName(Namespace, "rgw", "user_quota_max_size"),
-			"RGW User Quota max size",
+			prometheus.BuildFQName(Namespace, "rgw", "user_quota_max_size_kb"),
+			"RGW User Quota max size kb",
 			nil, labels)
 		ch <- prometheus.MustNewConstMetric(
-			c.current, prometheus.GaugeValue, float64(*quota.MaxObjects))
+			c.current, prometheus.GaugeValue, float64(*quota.MaxSizeKb))
 
 		c.current = prometheus.NewDesc(
 			prometheus.BuildFQName(Namespace, "rgw", "user_quota_max_objects"),

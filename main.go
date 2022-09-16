@@ -17,7 +17,7 @@ import (
 
 var flags = flag.NewFlagSet("exporter", flag.ExitOnError)
 
-var defaultEnabledCollectors = "rgw_user_quota"
+var defaultEnabledCollectors = "rgw_user_quota,rgw_buckets"
 
 type CmdLineOpts struct {
 	CollectorsEnabled string
