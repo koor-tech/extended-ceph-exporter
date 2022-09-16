@@ -1,4 +1,4 @@
-# extended-cephmetrics-exporter
+# extended-ceph-exporter
 
 ## Requirements
 
