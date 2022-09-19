@@ -78,6 +78,21 @@ func (c *RGWBuckets) Update(ch chan<- prometheus.Metric) error {
 			nil, labels)
 		ch <- prometheus.MustNewConstMetric(
 			c.current, prometheus.GaugeValue, float64(*bucketInfo.Usage.RgwMain.NumObjects))
+
+		c.current = prometheus.NewDesc(
+			prometheus.BuildFQName(Namespace, "rgw", "bucket_quota_max_size_kb"),
+			"RGW Bucket Quota Max Size kb",
+			nil, labels)
+		ch <- prometheus.MustNewConstMetric(
+			c.current, prometheus.GaugeValue, float64(*bucketInfo.BucketQuota.MaxSizeKb))
+
+		c.current = prometheus.NewDesc(
+			prometheus.BuildFQName(Namespace, "rgw", "bucket_quota_max_objects"),
+			"RGW Bucket Quota Max Objects",
+			nil, labels)
+		ch <- prometheus.MustNewConstMetric(
+			c.current, prometheus.GaugeValue, float64(*bucketInfo.BucketQuota.MaxObjects))
+
 	}
 
 	return nil
