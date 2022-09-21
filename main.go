@@ -11,22 +11,27 @@ import (
 	"github.com/koor-tech/extended-cephmetrics-exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
 )
 
-var flags = flag.NewFlagSet("exporter", flag.ExitOnError)
-
-var defaultEnabledCollectors = "rgw_user_quota,rgw_buckets"
+var (
+	flags                    = flag.NewFlagSet("exporter", flag.ExitOnError)
+	defaultEnabledCollectors = "rgw_user_quota,rgw_buckets"
+	log                      = logrus.New()
+)
 
 type CmdLineOpts struct {
+	LogLevel string
+
 	CollectorsEnabled string
 
 	RGWHost     string
 	RGWUser     string
 	RGWPassword string
 
-	ListenHost string
+	ListenHost  string
+	MetricsPath string
 
 	CachingEnabled bool
 	CacheDuration  time.Duration
@@ -35,11 +40,15 @@ type CmdLineOpts struct {
 var opts CmdLineOpts
 
 func init() {
+	flags.StringVar(&opts.LogLevel, "log-level", "INFO", "Set log level")
+
 	flags.StringVar(&opts.CollectorsEnabled, "collectors-enabled", defaultEnabledCollectors, "List of enabled collectors")
 	flags.StringVar(&opts.RGWHost, "rgw-host", "", "RGW Host URL")
 	flags.StringVar(&opts.RGWUser, "rgw-user", "", "RGW Username")
 	flags.StringVar(&opts.RGWPassword, "rgw-password", "", "RGW Password")
+
 	flags.StringVar(&opts.ListenHost, "listen-host", ":9138", "Exporter listen host")
+	flags.StringVar(&opts.MetricsPath, "metrics-path", "/metrics", "Set the metrics endpoint path")
 
 	flags.BoolVar(&opts.CachingEnabled, "cache-enabled", false, "Enable metrics caching to reduce load")
 	flags.DurationVar(&opts.CacheDuration, "cache-duration", 20*time.Second, "Cache duration in seconds")
@@ -79,6 +88,15 @@ func main() {
 		log.Fatal(err)
 	}
 
+	log.Out = os.Stdout
+
+	// Set log level
+	l, err := logrus.ParseLevel(opts.LogLevel)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.SetLevel(l)
+
 	// Check if required flags are given
 	for _, k := range []string{"rgw-host", "rgw-user", "rgw-password"} {
 		flag := flags.Lookup(k)
@@ -108,12 +126,32 @@ func main() {
 		log.Infof(" - %s", n)
 	}
 
-	if err = prometheus.Register(NewExtendedCephMetricsCollector(collectors, opts.CachingEnabled, opts.CacheDuration)); err != nil {
+	if err = prometheus.Register(NewExtendedCephMetricsCollector(log, collectors, opts.CachingEnabled, opts.CacheDuration)); err != nil {
 		log.Fatalf("Couldn't register collector: %s", err)
 	}
 
 	log.Infof("Listening on %s", opts.ListenHost)
-	http.Handle("/metrics", promhttp.Handler())
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`<!DOCTYPE html>
+<html>
+	<head><title>Extended Ceph Exporter</title></head>
+	<body>
+		<h1>Extended Ceph Exporter</h1>
+		<p><a href="` + opts.MetricsPath + `">Metrics</a></p>
+	</body>
+</html>`))
+	})
+
+	handler := promhttp.HandlerFor(prometheus.DefaultGatherer,
+		promhttp.HandlerOpts{
+			ErrorLog:      log,
+			ErrorHandling: promhttp.ContinueOnError,
+		})
+
+	http.HandleFunc(opts.MetricsPath, func(w http.ResponseWriter, r *http.Request) {
+		handler.ServeHTTP(w, r)
+	})
+
 	http.ListenAndServe(opts.ListenHost, nil)
 }
 
