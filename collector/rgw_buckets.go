@@ -26,7 +26,7 @@ type RGWBuckets struct {
 func (c *RGWBuckets) Update(ch chan<- prometheus.Metric) error {
 	buckets, err := c.api.ListBuckets(context.Background())
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	for _, bucketName := range buckets {
@@ -39,7 +39,7 @@ func (c *RGWBuckets) Update(ch chan<- prometheus.Metric) error {
 
 		labels := map[string]string{
 			"bucket": bucketName,
-			"owner":  bucketInfo.Owner,
+			"uid":    bucketInfo.Owner,
 		}
 
 		c.current = prometheus.NewDesc(
@@ -68,7 +68,7 @@ func (c *RGWBuckets) Update(ch chan<- prometheus.Metric) error {
 
 		c.current = prometheus.NewDesc(
 			prometheus.BuildFQName(Namespace, "rgw", "bucket_size_kb_actual"),
-			"RGW Bucket Size kb actual",
+			"RGW Bucket Size KiB actual",
 			nil, labels)
 		if bucketInfo.Usage.RgwMain.SizeKbActual == nil {
 			ch <- prometheus.MustNewConstMetric(
@@ -80,7 +80,7 @@ func (c *RGWBuckets) Update(ch chan<- prometheus.Metric) error {
 
 		c.current = prometheus.NewDesc(
 			prometheus.BuildFQName(Namespace, "rgw", "bucket_size_kb_utilized"),
-			"RGW Bucket Size kb utilized",
+			"RGW Bucket Size KiB utilized",
 			nil, labels)
 		if bucketInfo.Usage.RgwMain.SizeKbUtilized == nil {
 			ch <- prometheus.MustNewConstMetric(
@@ -108,7 +108,7 @@ func (c *RGWBuckets) Update(ch chan<- prometheus.Metric) error {
 
 		c.current = prometheus.NewDesc(
 			prometheus.BuildFQName(Namespace, "rgw", "bucket_quota_max_size_kb"),
-			"RGW Bucket Quota Max Size kb",
+			"RGW Bucket Quota Max Size KiB",
 			nil, labels)
 		ch <- prometheus.MustNewConstMetric(
 			c.current, prometheus.GaugeValue, float64(*bucketInfo.BucketQuota.MaxSizeKb))
