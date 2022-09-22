@@ -27,16 +27,20 @@ func (c *RGWUserQuota) Update(ch chan<- prometheus.Metric) error {
 	// Get the "admin" user
 	users, err := c.api.GetUsers(context.Background())
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// Iterate over users to get quota
 	for _, user := range *users {
-		quota, err := c.api.GetUserQuota(context.Background(), admin.QuotaSpec{
+		userQuota, err := c.api.GetUserQuota(context.Background(), admin.QuotaSpec{
 			UID: user,
 		})
 		if err != nil {
 			return err
+		}
+
+		if userQuota.Enabled == nil {
+			continue
 		}
 
 		labels := map[string]string{
@@ -44,18 +48,25 @@ func (c *RGWUserQuota) Update(ch chan<- prometheus.Metric) error {
 		}
 
 		c.current = prometheus.NewDesc(
-			prometheus.BuildFQName(Namespace, "rgw", "user_quota_max_size_kb"),
-			"RGW User Quota max size kb",
+			prometheus.BuildFQName(Namespace, "rgw", "user_userQuota_max_size"),
+			"RGW User Quota max size",
 			nil, labels)
 		ch <- prometheus.MustNewConstMetric(
-			c.current, prometheus.GaugeValue, float64(*quota.MaxSizeKb))
+			c.current, prometheus.GaugeValue, float64(*userQuota.MaxSize))
+
+		c.current = prometheus.NewDesc(
+			prometheus.BuildFQName(Namespace, "rgw", "user_quota_max_size_kb"),
+			"RGW User Quota max size KiB",
+			nil, labels)
+		ch <- prometheus.MustNewConstMetric(
+			c.current, prometheus.GaugeValue, float64(*userQuota.MaxSizeKb))
 
 		c.current = prometheus.NewDesc(
 			prometheus.BuildFQName(Namespace, "rgw", "user_quota_max_objects"),
 			"RGW User Quota max objects",
 			nil, labels)
 		ch <- prometheus.MustNewConstMetric(
-			c.current, prometheus.GaugeValue, float64(*quota.MaxObjects))
+			c.current, prometheus.GaugeValue, float64(*userQuota.MaxObjects))
 	}
 
 	return nil

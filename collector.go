@@ -6,19 +6,19 @@ import (
 
 	"github.com/koor-tech/extended-cephmetrics-exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 var (
 	scrapeDurationDesc = prometheus.NewDesc(
 		prometheus.BuildFQName(collector.Namespace, "scrape", "collector_duration_seconds"),
-		"dellhw_exporter: Duration of a collector scrape.",
+		"Duration of a collector scrape.",
 		[]string{"collector"},
 		nil,
 	)
 	scrapeSuccessDesc = prometheus.NewDesc(
 		prometheus.BuildFQName(collector.Namespace, "scrape", "collector_success"),
-		"dellhw_exporter: Whether a collector succeeded.",
+		"Whether a collector succeeded.",
 		[]string{"collector"},
 		nil,
 	)
@@ -26,6 +26,7 @@ var (
 
 // ExtendedCephMetricsCollector contains the collectors to be used
 type ExtendedCephMetricsCollector struct {
+	log             *logrus.Logger
 	lastCollectTime time.Time
 	collectors      map[string]collector.Collector
 
@@ -36,8 +37,9 @@ type ExtendedCephMetricsCollector struct {
 	cacheMutex     sync.Mutex
 }
 
-func NewExtendedCephMetricsCollector(collectors map[string]collector.Collector, cachingEnabled bool, cacheDuration time.Duration) *ExtendedCephMetricsCollector {
+func NewExtendedCephMetricsCollector(log *logrus.Logger, collectors map[string]collector.Collector, cachingEnabled bool, cacheDuration time.Duration) *ExtendedCephMetricsCollector {
 	return &ExtendedCephMetricsCollector{
+		log:             log,
 		cache:           make([]prometheus.Metric, 0),
 		lastCollectTime: time.Unix(0, 0),
 		collectors:      collectors,
@@ -60,9 +62,9 @@ func (n *ExtendedCephMetricsCollector) Collect(outgoingCh chan<- prometheus.Metr
 
 		expiry := n.lastCollectTime.Add(n.cacheDuration)
 		if time.Now().Before(expiry) {
-			log.Debugf("Using cache. Now: %s, Expiry: %s, LastCollect: %s", time.Now().String(), expiry.String(), n.lastCollectTime.String())
+			n.log.Debugf("Using cache. Now: %s, Expiry: %s, LastCollect: %s", time.Now().String(), expiry.String(), n.lastCollectTime.String())
 			for _, cachedMetric := range n.cache {
-				log.Debugf("Pushing cached metric %s to outgoingCh", cachedMetric.Desc().String())
+				n.log.Debugf("Pushing cached metric %s to outgoingCh", cachedMetric.Desc().String())
 				outgoingCh <- cachedMetric
 			}
 			return
@@ -80,11 +82,11 @@ func (n *ExtendedCephMetricsCollector) Collect(outgoingCh chan<- prometheus.Metr
 		for metric := range metricsCh {
 			outgoingCh <- metric
 			if n.cachingEnabled {
-				log.Debugf("Appending metric %s to cache", metric.Desc().String())
+				n.log.Debugf("Appending metric %s to cache", metric.Desc().String())
 				n.cache = append(n.cache, metric)
 			}
 		}
-		log.Debug("Finished pushing metrics from metricsCh to outgoingCh")
+		n.log.Debug("Finished pushing metrics from metricsCh to outgoingCh")
 		wgOutgoing.Done()
 	}()
 
@@ -92,24 +94,34 @@ func (n *ExtendedCephMetricsCollector) Collect(outgoingCh chan<- prometheus.Metr
 	wgCollection.Add(len(n.collectors))
 	for name, coll := range n.collectors {
 		go func(name string, coll collector.Collector) {
+			begin := time.Now()
 			err := coll.Update(metricsCh)
+			duration := time.Since(begin)
+			var success float64
+
 			if err != nil {
-				log.Fatal(err)
+				n.log.Errorf("%s collector failed after %fs: %s", name, duration.Seconds(), err)
+				success = 0
+			} else {
+				n.log.Debugf("%s collector succeeded after %fs.", name, duration.Seconds())
+				success = 1
 			}
+			metricsCh <- prometheus.MustNewConstMetric(scrapeDurationDesc, prometheus.GaugeValue, duration.Seconds(), name)
+			metricsCh <- prometheus.MustNewConstMetric(scrapeSuccessDesc, prometheus.GaugeValue, success, name)
 			wgCollection.Done()
 		}(name, coll)
 	}
 
-	log.Debug("Waiting for collectors")
+	n.log.Debug("Waiting for collectors")
 	wgCollection.Wait()
-	log.Debug("Finished waiting for collectors")
+	n.log.Debug("Finished waiting for collectors")
 
 	n.lastCollectTime = time.Now()
-	log.Debugf("Updated lastCollectTime to %s", n.lastCollectTime.String())
+	n.log.Debugf("Updated lastCollectTime to %s", n.lastCollectTime.String())
 
 	close(metricsCh)
 
-	log.Debug("Waiting for outgoing Adapter")
+	n.log.Debug("Waiting for outgoing Adapter")
 	wgOutgoing.Wait()
-	log.Debug("Finished waiting for outgoing Adapter")
+	n.log.Debug("Finished waiting for outgoing Adapter")
 }
