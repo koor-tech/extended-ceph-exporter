@@ -2,19 +2,19 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: {{ include "dellhw_exporter.fullname" . }}
+  name: {{ include "extended-ceph-exporter.fullname" . }}
 {{- if .Values.prometheusRule.namespace }}
   namespace: {{ .Values.prometheusRule.namespace }}
 {{- end }}
   labels:
-    {{- include "dellhw_exporter.labels" . | nindent 4 }}
+    {{- include "extended-ceph-exporter.labels" . | nindent 4 }}
   {{- if .Values.prometheusRule.additionalLabels }}
     {{- toYaml .Values.prometheusRule.additionalLabels | nindent 4 }}
   {{- end }}
 spec:
 {{- if .Values.prometheusRule.rules }}
   groups:
-  - name: {{ template "dellhw_exporter.name" . }}
+  - name: {{ template "extended-ceph-exporter.name" . }}
     rules: {{- toYaml .Values.prometheusRule.rules | nindent 4 }}
 {{- end }}
 {{- end }}

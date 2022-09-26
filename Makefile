@@ -1,3 +1,5 @@
+SHELL := /usr/bin/env bash
+
 PROJECTNAME ?= extended-ceph-exporter
 
 GO111MODULE  ?= on
@@ -34,7 +36,7 @@ PROMU := $(FIRST_GOPATH)/bin/promu
 
 pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
 
-DOCKER_IMAGE_NAME ?= dellhw_exporter
+DOCKER_IMAGE_NAME ?= docker.io/koorinc/extended-ceph-exporter
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
 FILELIST := .promu.yml CHANGELOG.md cmd collector contrib docs go.sum Makefile NOTICE README.md VERSION \

@@ -2,12 +2,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "dellhw_exporter.fullname" . }}
+  name: {{ include "extended-ceph-exporter.fullname" . }}
 {{- if .Values.serviceMonitor.namespace }}
   namespace: {{ .Values.serviceMonitor.namespace }}
 {{- end }}
   labels:
-    {{- include "dellhw_exporter.labels" . | nindent 4 }}
+    {{- include "extended-ceph-exporter.labels" . | nindent 4 }}
   {{- if .Values.serviceMonitor.additionalLabels }}
     {{- toYaml .Values.serviceMonitor.additionalLabels | nindent 4 }}
   {{- end }}
@@ -36,5 +36,5 @@ spec:
 {{- end }}
   selector:
     matchLabels:
-      {{- include "dellhw_exporter.selectorLabels" . | nindent 6 }}
+      {{- include "extended-ceph-exporter.selectorLabels" . | nindent 6 }}
 {{- end }}
