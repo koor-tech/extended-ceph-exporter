@@ -1,0 +1,48 @@
+name: build_release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build_release:
+    # Depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.19'
+
+      - name: Run tests
+        run: |
+          make test
+          make promu
+          make check_license
+
+      - name: Build and release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          promu crossbuild
+          promu crossbuild tarballs
+          promu checksum .tarballs
+          promu release .tarballs
+
+      - name: Build and push to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@4
+        with:
+          name: ${{ github.repository }}
+          registry: docker.io
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+          tags: "latest"
+          tag_semver: true
