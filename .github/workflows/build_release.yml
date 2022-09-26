@@ -45,5 +45,6 @@ jobs:
 
       - name: Build and push container image
         run: |
+          export CONTAINER_IMAGE_TAG="${GITHUB_REF#refs/*/}"
           make docker-build
           make docker-publish

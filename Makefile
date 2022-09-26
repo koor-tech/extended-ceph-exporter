@@ -36,8 +36,8 @@ PROMU := $(FIRST_GOPATH)/bin/promu
 
 pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
 
-DOCKER_IMAGE_NAME ?= docker.io/koorinc/extended-ceph-exporter
-DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
+CONTAINER_IMAGE_NAME ?= docker.io/koorinc/extended-ceph-exporter
+CONTAINER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
 all: format style vet test build
 
@@ -67,13 +67,13 @@ docker-build:
 	docker build \
 		--build-arg BUILD_DATE="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')" \
 		--build-arg REVISION="$(shell git rev-parse HEAD)" \
-		-t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" \
+		-t "$(CONTAINER_IMAGE_NAME):$(CONTAINER_IMAGE_TAG)" \
 		.
-	docker tag "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" "$(DOCKER_IMAGE_NAME):latest"
+	docker tag "$(CONTAINER_IMAGE_NAME):$(CONTAINER_IMAGE_TAG)" "$(CONTAINER_IMAGE_NAME):latest"
 
 docker-publish:
-	docker push "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)"
-	docker push "$(DOCKER_IMAGE_NAME):latest"
+	docker push "$(CONTAINER_IMAGE_NAME):$(CONTAINER_IMAGE_TAG)"
+	docker push "$(CONTAINER_IMAGE_NAME):latest"
 
 format:
 	go fmt $(pkgs)
