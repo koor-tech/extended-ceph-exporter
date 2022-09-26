@@ -16,10 +16,10 @@ spec:
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
+        checksum/additional-env: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
       {{- end }}
       labels:
         {{- include "extended-ceph-exporter.selectorLabels" . | nindent 8 }}
-        checksum/additional-env: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
