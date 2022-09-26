@@ -37,12 +37,20 @@ jobs:
           promu checksum .tarballs
           promu release .tarballs
 
-      - name: Build and push to Docker Hub
-        uses: elgohr/Publish-Docker-Github-Action@4
+      - name: Build and push semver tagged images to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        with:
+          name: ${{ github.repository }}
+          registry: docker.io
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+          tag_semver: true
+
+      - name: Build and push latest tag to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v4
         with:
           name: ${{ github.repository }}
           registry: docker.io
           username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
           tags: "latest"
-          tag_semver: true
