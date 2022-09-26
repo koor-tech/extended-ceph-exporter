@@ -11,6 +11,7 @@ import (
 	"github.com/koor-tech/extended-cephmetrics-exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/common/version"
 	"github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
 )
@@ -22,6 +23,7 @@ var (
 )
 
 type CmdLineOpts struct {
+	Version  bool
 	LogLevel string
 
 	CollectorsEnabled string
@@ -40,6 +42,7 @@ type CmdLineOpts struct {
 var opts CmdLineOpts
 
 func init() {
+	flags.BoolVar(&opts.Version, "version", false, "Show version info and exit")
 	flags.StringVar(&opts.LogLevel, "log-level", "INFO", "Set log level")
 
 	flags.StringVar(&opts.CollectorsEnabled, "collectors-enabled", defaultEnabledCollectors, "List of enabled collectors")
@@ -86,6 +89,11 @@ func parseFlagsAndEnvVars() error {
 func main() {
 	if err := parseFlagsAndEnvVars(); err != nil {
 		log.Fatal(err)
+	}
+
+	if opts.Version {
+		fmt.Fprintln(os.Stdout, version.Print(os.Args[0]))
+		os.Exit(0)
 	}
 
 	log.Out = os.Stdout
