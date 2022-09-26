@@ -45,6 +45,10 @@ A Prometheus exporter to provide "extended" metrics about a Ceph cluster's runni
 
 * To run the exporter locally, run `go run .`
 
+### Helm
+
+To install the exporter to Kubernetes using Helm, check out the [extended-ceph-exporter Helm Chart](charts/extended-ceph-exporter/).
+
 ## Collectors
 
 There is varying support for collectors. The tables
