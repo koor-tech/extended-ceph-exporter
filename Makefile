@@ -60,12 +60,20 @@ crossbuild: promu
 	$(PROMU) crossbuild tarballs
 
 docker: crossbuild
+	$(MAKE) docker-build
+
+docker-build:
 	@echo ">> building docker image"
 	docker build \
 		--build-arg BUILD_DATE="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')" \
 		--build-arg REVISION="$(shell git rev-parse HEAD)" \
 		-t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" \
 		.
+	docker tag "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" "$(DOCKER_IMAGE_NAME):latest"
+
+docker-publish:
+	docker push "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)"
+	docker push "$(DOCKER_IMAGE_NAME):latest"
 
 format:
 	go fmt $(pkgs)
@@ -99,4 +107,4 @@ vet:
 	@echo ">> vetting code"
 	@$(GO) vet $(pkgs)
 
-.PHONY: all build crossbuild docker format promu style tarball test test-short vet
+.PHONY: all build crossbuild docker docker-publish format promu style tarball test test-short vet
