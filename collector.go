@@ -20,7 +20,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/koor-tech/extended-cephmetrics-exporter/collector"
+	"github.com/koor-tech/extended-ceph-exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 )

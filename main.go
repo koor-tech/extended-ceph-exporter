@@ -24,7 +24,7 @@ import (
 	"time"
 
 	"github.com/ceph/go-ceph/rgw/admin"
-	"github.com/koor-tech/extended-cephmetrics-exporter/collector"
+	"github.com/koor-tech/extended-ceph-exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"

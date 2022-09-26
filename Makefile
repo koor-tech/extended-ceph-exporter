@@ -39,9 +39,6 @@ pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
 DOCKER_IMAGE_NAME ?= docker.io/koorinc/extended-ceph-exporter
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
-FILELIST := .promu.yml CHANGELOG.md cmd collector contrib docs go.sum Makefile NOTICE README.md VERSION \
-            charts CODE_OF_CONDUCT.md container Dockerfile go.mod LICENSE mkdocs.yml pkg systemd
-
 all: format style vet test build
 
 build: promu
@@ -58,11 +55,15 @@ check_license:
 		echo "All files with license header"; \
 	fi
 
-docker:
+crossbuild: promu
+	$(PROMU) crossbuild
+	$(PROMU) crossbuild tarballs
+
+docker: crossbuild
 	@echo ">> building docker image"
 	docker build \
 		--build-arg BUILD_DATE="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')" \
-		--build-arg VCS_REF="$(shell git rev-parse HEAD)" \
+		--build-arg REVISION="$(shell git rev-parse HEAD)" \
 		-t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" \
 		.
 
@@ -84,14 +85,8 @@ tarball: tree
 	@echo ">> building release tarball"
 	@$(PROMU) tarball --prefix $(TARBALL_DIR) $(BIN_DIR)
 
-dist: 
-	@rm -rf .srcpackage
-	@mkdir .srcpackage
-	cp -r $(FILELIST) .srcpackage/
-	tar --transform "s/\.srcpackage/$(PROJECTNAME)-$(VERSION)/" -zcvf $(PROJECTNAME)-$(VERSION).tar.gz .srcpackage
-	
 clean:
-	rm -rf .srcpackage RPMBUILD $(PROJECTNAME) $(PROJECTNAME).spec $(PROJECTNAME)-$(VERSION).tar.gz 
+	rm -rf $(PROJECTNAME) $(PROJECTNAME).spec $(PROJECTNAME)-$(VERSION).tar.gz 
 	
 test:
 	@$(GO) test $(pkgs)

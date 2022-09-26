@@ -1,4 +1,4 @@
-module github.com/koor-tech/extended-cephmetrics-exporter
+module github.com/koor-tech/extended-ceph-exporter
 
 go 1.19
 
