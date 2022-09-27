@@ -2,6 +2,8 @@
 
 A Prometheus exporter to provide "extended" metrics about a Ceph cluster's running components (e.g., RGW).
 
+[![Ceph - RGW Bucket Usage Overview Grafana Dashboard Screenshot](grafana/ceph-rgw-bucket-usage-overview.png)](grafana/)
+
 ## Requirements
 
 * Needs a Ceph cluster up and running.
@@ -44,6 +46,8 @@ A Prometheus exporter to provide "extended" metrics about a Ceph cluster's runni
   ```
 
 * To run the exporter locally, run `go run .`
+
+* Should you have Grafana running for metrics visulization, check out the [Grafana dashboards](grafana/).
 
 ### Helm
 
