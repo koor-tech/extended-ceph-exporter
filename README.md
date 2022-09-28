@@ -11,11 +11,11 @@ A Prometheus exporter to provide "extended" metrics about a Ceph cluster's runni
 * Needs an admin user
 
     ```
-    radosgw-admin user create --uid admin --display-name "Admin User" --caps "buckets=*;users=*;usage=read;metadata=read;zone=read"
+    radosgw-admin user create --uid extended-ceph-exporter --display-name "extended-ceph-exporter admin user" --caps "buckets=read;users=read;usage=read;metadata=read;zone=read"
     # Access key / "Username"
-    radosgw-admin user info --uid admin | jq '.keys[0].access_key'
+    radosgw-admin user info --uid extended-ceph-exporter | jq '.keys[0].access_key'
     # Secret key / "Password
-    radosgw-admin user info --uid admin | jq '.keys[0].secret_key'
+    radosgw-admin user info --uid extended-ceph-exporter | jq '.keys[0].secret_key'
     ```
 
 ## Quickstart
