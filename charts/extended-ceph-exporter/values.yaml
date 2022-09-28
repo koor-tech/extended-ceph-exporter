@@ -92,8 +92,12 @@ prometheusRule:
   # prometheusRule.rules -- Checkout the file for example alerts
   rules: []
 
+# -- Config for the exporter
+config:
+  rgw:
+    host: "https://your-ceph-rgw-endpoint-here"
+    accessKey: "your-rgw-exporter-access-key-here"
+    secretKey: "your-rgw-exporter-secret-key-here"
+
 # -- Will be put in a Secret and used as env vars
-additionalEnv:
-  CEPH_METRICS_RGW_HOST: "https://your-ceph-rgw-endpoint-here"
-  CEPH_METRICS_RGW_USER: "your-rgw-admin-user-here"
-  CEPH_METRICS_RGW_PASSWORD: "your-rgw-admin-password-here"
+additionalEnv: {}
