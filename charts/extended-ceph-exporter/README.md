@@ -16,7 +16,17 @@ _See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation
 To install the chart with the release name `my-release`:
 
 ```console
-helm install my-release extended-ceph-exporter/extended-ceph-exporter
+helm install my-release extended-ceph-exporter/extended-ceph-exporter \
+--set config.rgw.accessKey=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c10) \
+--set config.rgw.secretKey=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c10) \
+--set config.rgw.host=https://your-ceph-rgw-endpoint-here
+-namespace <your-cluster-namespace>
+```
+
+or update `values.yaml` before running:
+
+```console
+helm install my-release extended-ceph-exporter/extended-ceph-exporter -f values.yaml
 ```
 
 ## Uninstalling the Chart

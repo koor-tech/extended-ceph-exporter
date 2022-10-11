@@ -93,11 +93,27 @@ prometheusRule:
   rules: []
 
 # -- Config for the exporter
+# pass during helm install or set prior to update this can also be done during runtime by using `--set``
 config:
   rgw:
     host: "https://your-ceph-rgw-endpoint-here"
-    accessKey: "your-rgw-exporter-access-key-here"
-    secretKey: "your-rgw-exporter-secret-key-here"
+    # rgw admin username
+    accessKey: ""
+    # rgw admin password
+    secretKey: ""
 
 # -- Will be put in a Secret and used as env vars
 additionalEnv: {}
+
+# If enabled,  will create a rgw admin user `extended-ceph-exporter` either on
+# Rook/Ceph cluster pre upgrade(when having extended-ceph-exporter as a helm
+# dependency) or on post install of extended-ceph-exporter(needs existing
+# Rook/Ceph cluster).
+# See more: https://github.com/koor-tech/extended-ceph-exporter/tree/main/charts/extended-ceph-exporter#installing-the-chart 
+# This user will be used for extended ceph metrics.
+postInstallJob:
+  enabled: true
+  image:
+    repository: quay.io/ceph/ceph
+    pullPolicy: IfNotPresent
+    tag: v17.2.3
