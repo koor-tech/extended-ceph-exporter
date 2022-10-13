@@ -44,9 +44,9 @@ type CmdLineOpts struct {
 
 	CollectorsEnabled string
 
-	RGWHost     string
-	RGWUser     string
-	RGWPassword string
+	RGWHost      string
+	RGWAccessKey string
+	RGWSecretKey string
 
 	ListenHost  string
 	MetricsPath string
@@ -63,8 +63,8 @@ func init() {
 
 	flags.StringVar(&opts.CollectorsEnabled, "collectors-enabled", defaultEnabledCollectors, "List of enabled collectors")
 	flags.StringVar(&opts.RGWHost, "rgw-host", "", "RGW Host URL")
-	flags.StringVar(&opts.RGWUser, "rgw-user", "", "RGW Username")
-	flags.StringVar(&opts.RGWPassword, "rgw-password", "", "RGW Password")
+	flags.StringVar(&opts.RGWAccessKey, "rgw-access-key", "", "RGW Access Key")
+	flags.StringVar(&opts.RGWSecretKey, "rgw-secret-key", "", "RGW Secret Key")
 
 	flags.StringVar(&opts.ListenHost, "listen-host", ":9138", "Exporter listen host")
 	flags.StringVar(&opts.MetricsPath, "metrics-path", "/metrics", "Set the metrics endpoint path")
@@ -181,7 +181,7 @@ func main() {
 
 func CreateRGWAPIConnection() (*admin.API, error) {
 	// Generate a connection object
-	co, err := admin.New(opts.RGWHost, opts.RGWUser, opts.RGWPassword, nil)
+	co, err := admin.New(opts.RGWHost, opts.RGWAccessKey, opts.RGWSecretKey, nil)
 	if err != nil {
 		return nil, err
 	}
