@@ -57,6 +57,8 @@ type CmdLineOpts struct {
 
 var opts CmdLineOpts
 
+var requiredFlags = []string{"rgw-host", "rgw-access-key", "rgw-secret-key"}
+
 func init() {
 	flags.BoolVar(&opts.Version, "version", false, "Show version info and exit")
 	flags.StringVar(&opts.LogLevel, "log-level", "INFO", "Set log level")
@@ -122,10 +124,10 @@ func main() {
 	log.SetLevel(l)
 
 	// Check if required flags are given
-	for _, k := range []string{"rgw-host", "rgw-user", "rgw-password"} {
-		flag := flags.Lookup(k)
+	for _, f := range requiredFlags {
+		flag := flags.Lookup(f)
 		if flag == nil {
-			log.Fatalf("flag %s not found during lookup", k)
+			log.Fatalf("required flag %s not found during lookup in flags list, please report this to the developer", f)
 		}
 		if !flag.Changed {
 			log.Fatalf("required flag %s not set", flag.Name)
