@@ -9,10 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}",
-            // Be sure to create an actual `.env` based on the `.env.example` in the
-            // root of the project
-            "envFile": "${workspaceFolder}/.env"
+            "program": "${workspaceFolder}"
         }
     ]
 }

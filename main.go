@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/ceph/go-ceph/rgw/admin"
+	"github.com/joho/godotenv"
 	"github.com/koor-tech/extended-ceph-exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -82,6 +83,8 @@ func flagNameFromEnvName(s string) string {
 }
 
 func parseFlagsAndEnvVars() error {
+	godotenv.Load(".env")
+
 	for _, v := range os.Environ() {
 		vals := strings.SplitN(v, "=", 2)
 
