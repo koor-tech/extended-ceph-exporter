@@ -1,3 +1,8 @@
+## 1.0.2 / 2022-11-14
+
+* [FEATURE] use the dotenv extension to read RGW credentials and endpoint from `.env` file
+* [BUGFIX] Increment helm chart version to address documentation changes
+
 ## 1.0.1 / 2022-11-14
 
 * [BUGFIX] fix the required flags check to check for the new flag names
