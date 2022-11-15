@@ -1,3 +1,7 @@
+## ?? / 2022-11-15
+
+* [FEATURE] Autodetect the RGW host and autogenerate the RGW access key and secret
+
 ## 1.0.2 / 2022-11-14
 
 * [FEATURE] use the dotenv extension to read RGW credentials and endpoint from `.env` file
