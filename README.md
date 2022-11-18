@@ -78,19 +78,3 @@ A VSCode debug config is available to run and debug the project.
 
 To make the exporter talk with a Ceph RGW S3 endpoint, create a copy of the `.env.example` file and name it `.env`.
 Be sure ot add your Ceph RGW S3 endpoint and credentials in it.
-
-### Create a new Release
-
-To create a new release (example is for release `v0.1.2`):
-
-1. Increase the version according to Semantic Versioning in the [`VERSION` file](VERSION).
-2. Add a new entry to the [`CHANGELOG.md`](CHANGELOG.md) with the changes and improvements listed in it.
-3. Set the new version, which will be the new container image tag, in [the `values.yaml` of the Helm chart here](https://github.com/koor-tech/extended-ceph-exporter/blob/main/charts/extended-ceph-exporter/Chart.yaml#L24) (`appVersion:` field).
-4. Check out a new branch, which will be used for the pull request to update the version: `git checkout -b BRANCH_NAME`
-5. Commit these changes now using `git commit -s -S`.
-6. Push the branch using `git push -u origin BRANCH_NAME` with these changes and create a pull request on [GitHub](https://github.com/koor-tech/extended-ceph-exporter).
-7. Wait for pull request to be approved and merge it (if you have access to do so).
-8. Create the new tag using `git tag v0.1.2` and then run `git push -u origin v0.1.2`
-9. In a few minutes, the CI should have built and published a draft of the release here [GitHub - Releases List](https://github.com/koor-tech/extended-ceph-exporter/releases).
-10. Now edit the release and use the green button to publish the release.
-11. Congratulations! The release is now fully published.

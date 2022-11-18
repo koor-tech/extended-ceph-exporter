@@ -1,5 +1,6 @@
 ## ?? / 2022-11-15
 
+* [CHORE] Use [helm-docs](https://github.com/norwoodj/helm-docs) to create chart documentation
 * [FEATURE] Autodetect the RGW host and autogenerate the RGW access key and secret
 
 ## 1.0.2 / 2022-11-14
