@@ -2,7 +2,7 @@
 
 A Helm chart for deploying the extended-ceph-exporter to Kubernetes
 
-![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
+![Version: 1.2.1](https://img.shields.io/badge/Version-1.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -55,14 +55,11 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | config.rgw.accessKey | string | Randomly generated | RGW admin access key |
 | config.rgw.host | string | First detected RGW endpoint | The Ceph RGW endpoint as a URL, e.g. "https://your-ceph-rgw-endpoint-here:8443" |
 | config.rgw.secretKey | string | Randomly generated | RGW admin secret key |
-| fullnameOverride | string | `""` |  |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
-| nameOverride | string | `""` |  |
 | postInstallJob.enabled | bool | `true` | If enabled,  will create a rgw admin user `extended-ceph-exporter` either on Rook/Ceph cluster pre upgrade(when having extended-ceph-exporter as a helm dependency) or on post install of extended-ceph-exporter(needs existing Rook/Ceph cluster). This user will be used for extended ceph metrics. |
 | prometheusRule.additionalLabels | object | `{}` | Additional Labels for the PrometheusRule object |
 | prometheusRule.enabled | bool | `false` | Specifies whether a prometheus-operator PrometheusRule should be created |
 | prometheusRule.rules | list | `[]` | Checkout the file for example alerts |
-| replicaCount | int | `1` |  |
 | resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. |
 | service.port | int | `9138` |  |
 | service.type | string | `"ClusterIP"` |  |
