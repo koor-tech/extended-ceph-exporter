@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# @ignore
+# -- Number of replicas of the exporter
 replicaCount: 1
 
 image:
@@ -15,9 +15,9 @@ image:
 
 # @ignore
 imagePullSecrets: []
-# @ignore
+# -- Override chart name
 nameOverride: ""
-# @ignore
+# -- Override fully-qualified app name
 fullnameOverride: ""
 
 serviceAccount:
@@ -29,14 +29,14 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-# @ignore
+# -- Annotations to add to the pod
 podAnnotations: {}
 
-# @ignore
+# -- [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 podSecurityContext: {}
   # fsGroup: 2000
 
-# @ignore
+# -- [Security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 securityContext: {}
   # capabilities:
   #   drop:
@@ -64,7 +64,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# @ignore
+# -- Autoscaling configuration
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -72,13 +72,13 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-# @ignore
+# -- [Create a pod that gets scheduled to your chosen node](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/#create-a-pod-that-gets-scheduled-to-your-chosen-node)
 nodeSelector: {}
 
-# @ignore
+# -- [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
 tolerations: []
 
-# @ignore
+# -- [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
 serviceMonitor:
@@ -93,6 +93,7 @@ serviceMonitor:
   #  matchNames:
   #    - monitoring
   #   any: true
+  # -- (duration) Interval at which metrics should be scraped
   scrapeInterval: 30s
   # honorLabels: true
 
@@ -103,7 +104,8 @@ prometheusRule:
   additionalLabels: {}
   # Default: .Release.Namespace
   # namespace: ""
-  # prometheusRule.rules -- Checkout the file for example alerts
+  # prometheusRule.rules # Checkout the file for example alerts
+  # -- (prometheusrules.monitoring.coreos.com)
   rules: []
 
 # Config for the exporter

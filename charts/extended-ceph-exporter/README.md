@@ -52,15 +52,24 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | additionalEnv | object | `{}` | Will be put in a Secret and used as env vars |
+| affinity | object | `{}` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Autoscaling configuration |
 | config.rgw.accessKey | string | Randomly generated | RGW admin access key |
 | config.rgw.host | string | First detected RGW endpoint | The Ceph RGW endpoint as a URL, e.g. "https://your-ceph-rgw-endpoint-here:8443" |
 | config.rgw.secretKey | string | Randomly generated | RGW admin secret key |
+| fullnameOverride | string | `""` | Override fully-qualified app name |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| nameOverride | string | `""` | Override chart name |
+| nodeSelector | object | `{}` | [Create a pod that gets scheduled to your chosen node](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/#create-a-pod-that-gets-scheduled-to-your-chosen-node) |
+| podAnnotations | object | `{}` | Annotations to add to the pod |
+| podSecurityContext | object | `{}` | [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | postInstallJob.enabled | bool | `true` | If enabled,  will create a rgw admin user `extended-ceph-exporter` either on Rook/Ceph cluster pre upgrade(when having extended-ceph-exporter as a helm dependency) or on post install of extended-ceph-exporter(needs existing Rook/Ceph cluster). This user will be used for extended ceph metrics. |
 | prometheusRule.additionalLabels | object | `{}` | Additional Labels for the PrometheusRule object |
 | prometheusRule.enabled | bool | `false` | Specifies whether a prometheus-operator PrometheusRule should be created |
-| prometheusRule.rules | list | `[]` | Checkout the file for example alerts |
+| prometheusRule.rules | prometheusrules.monitoring.coreos.com | `[]` |  |
+| replicaCount | int | `1` | Number of replicas of the exporter |
 | resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. |
+| securityContext | object | `{}` | [Security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | service.port | int | `9138` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
@@ -69,5 +78,6 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | serviceMonitor.additionalLabels | object | `{}` | Additional Labels for the ServiceMonitor object |
 | serviceMonitor.enabled | bool | `false` | Specifies whether a prometheus-operator ServiceMonitor should be created |
 | serviceMonitor.namespaceSelector | string | `nil` |  |
-| serviceMonitor.scrapeInterval | string | `"30s"` |  |
+| serviceMonitor.scrapeInterval | duration | `"30s"` | Interval at which metrics should be scraped |
+| tolerations | list | `[]` | [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 
