@@ -47,7 +47,7 @@ This removes all the Kubernetes components associated with the chart and deletes
 
 _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command documentation._
 
-## Values
+## Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
