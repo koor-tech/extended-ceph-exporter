@@ -66,10 +66,10 @@ RGW Host value
 */}}
 {{- define "extended-ceph-exporter.rgwHost" -}}
 {{- with .Values.config.rgw.host }}
-{{- .Values.config.rgw.host }}
+{{- $.Values.config.rgw.host }}
 {{- else }}
 {{- range (lookup "ceph.rook.io/v1" "CephObjectStore" "" "").items }}
-{{- .status.info.endpoint}}
+{{- .status.info.endpoint }}
 {{- break }}
 {{- end }}
 {{- end }}
