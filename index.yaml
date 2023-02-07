@@ -3,6 +3,16 @@ entries:
   extended-ceph-exporter:
   - apiVersion: v2
     appVersion: v1.0.2
+    created: "2023-02-07T13:27:33.175388352Z"
+    description: A Helm chart for deploying the extended-ceph-exporter to Kubernetes
+    digest: 93eaade030aa62533e943c52de7547c66fa383d6407bc75f1f2693ef9ab2e2de
+    name: extended-ceph-exporter
+    type: application
+    urls:
+    - https://github.com/koor-tech/extended-ceph-exporter/releases/download/extended-ceph-exporter-1.2.3/extended-ceph-exporter-1.2.3.tgz
+    version: 1.2.3
+  - apiVersion: v2
+    appVersion: v1.0.2
     created: "2023-02-07T12:46:06.372007025Z"
     description: A Helm chart for deploying the extended-ceph-exporter to Kubernetes
     digest: 13fdbf912f1b96428c5050637fc231b536b30eee061450d2a09764fa573a9cb6
@@ -71,4 +81,4 @@ entries:
     urls:
     - https://github.com/koor-tech/extended-ceph-exporter/releases/download/extended-ceph-exporter-1.0.0/extended-ceph-exporter-1.0.0.tgz
     version: 1.0.0
-generated: "2023-02-07T12:46:06.37206253Z"
+generated: "2023-02-07T13:27:33.175417754Z"
