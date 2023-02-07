@@ -77,7 +77,11 @@ docker-publish:
 
 format:
 	go fmt $(pkgs)
-	
+
+helm-doc:
+	GO111MODULE=on go install github.com/norwoodj/helm-docs/cmd/helm-docs@v1.11.0
+	helm-docs --chart-search-root=./charts
+
 promu:
 	$(eval PROMU_TMP := $(shell mktemp -d))
 	curl -s -L $(PROMU_URL) | tar -xvzf - -C $(PROMU_TMP)
