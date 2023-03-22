@@ -68,9 +68,9 @@ RGW Host value
 {{- with .Values.config.rgw.host }}
 {{- $.Values.config.rgw.host }}
 {{- else }}
-{{- range (lookup "ceph.rook.io/v1" "CephObjectStore" "" "").items }}
-{{- .status.info.endpoint }}
-{{- break }}
+{{- $cephobjs := (lookup "ceph.rook.io/v1" "CephObjectStore" "" "").items }}
+{{- with $cephobjs }}
+{{- (first $cephobjs).status.info.endpoint }}
 {{- end }}
 {{- end }}
 {{- end }}
