@@ -72,6 +72,11 @@ below list all existing collectors and the required Ceph components.
 * Golang 1.19
 * Depending on the module requirements, a Ceph cluster with the respective Ceph components.
 
+### Making Changes to the Helm Chart
+
+When changing anything in the Helm Chart, the version in the `Chart.yaml` needs to be increased according to [Semver](https://semver.org/).
+Additionally `make helm-doc` must be run afterwards and the changes to the Helm Chart's `README.md` must be commited as well.
+
 ### Debugging
 
 A VSCode debug config is available to run and debug the project.
