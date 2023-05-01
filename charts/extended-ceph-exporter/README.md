@@ -2,7 +2,7 @@
 
 A Helm chart for deploying the extended-ceph-exporter to Kubernetes
 
-![Version: 1.2.5](https://img.shields.io/badge/Version-1.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
+![Version: 1.2.6](https://img.shields.io/badge/Version-1.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -68,7 +68,7 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | prometheusRule.enabled | bool | `false` | Specifies whether a prometheus-operator PrometheusRule should be created |
 | prometheusRule.rules | prometheusrules.monitoring.coreos.com | `[]` |  |
 | replicaCount | int | `1` | Number of replicas of the exporter |
-| resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. |
+| resources | object | `{"limits":{"cpu":"125m","memory":"150Mi"},"requests":{"cpu":"25m","memory":"150Mi"}}` | These are sane defaults for "small" object storages |
 | securityContext | object | `{}` | [Security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | service.port | int | `9138` |  |
 | service.type | string | `"ClusterIP"` |  |
