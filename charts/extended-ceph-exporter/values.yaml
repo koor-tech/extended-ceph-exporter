@@ -33,11 +33,13 @@ serviceAccount:
 podAnnotations: {}
 
 # -- [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 # -- [Security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -52,17 +54,14 @@ service:
   type: ClusterIP
   port: 9138
 
-# -- We usually recommend not to specify default resources and to leave this as a conscious
-# choice for the user. This also increases chances charts run on environments with little
-# resources, such as Minikube. If you do want to specify resources, uncomment the following
-# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# -- These are sane defaults for "small" object storages
+resources:
+  limits:
+    cpu: 125m
+    memory: 150Mi
+  requests:
+    cpu: 25m
+    memory: 150Mi
 
 # -- Autoscaling configuration
 autoscaling:
