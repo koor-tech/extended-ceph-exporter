@@ -3,7 +3,7 @@ module github.com/koor-tech/extended-ceph-exporter
 go 1.19
 
 require (
-	github.com/ceph/go-ceph v0.17.0
+	github.com/ceph/go-ceph v0.21.0
 	github.com/joho/godotenv v1.5.1
 	github.com/prometheus/client_golang v1.15.1
 	github.com/prometheus/common v0.44.0
@@ -12,7 +12,7 @@ require (
 )
 
 require (
-	github.com/aws/aws-sdk-go v1.44.67 // indirect
+	github.com/aws/aws-sdk-go v1.44.234 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
