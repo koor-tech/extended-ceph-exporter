@@ -134,4 +134,4 @@ postInstallJob:
   image:
     repository: quay.io/ceph/ceph
     pullPolicy: IfNotPresent
-    tag: v17.2.3
+    tag: v17.2.6
