@@ -116,10 +116,10 @@ config:
     host: ""
     # -- RGW admin access key
     # @default -- Randomly generated
-    accessKey: ""
+    accessKey: null
     # -- RGW admin secret key
     # @default -- Randomly generated
-    secretKey: ""
+    secretKey: null
 
 # -- Will be put in a Secret and used as env vars
 additionalEnv: {}
