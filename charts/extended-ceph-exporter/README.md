@@ -2,7 +2,7 @@
 
 A Helm chart for deploying the extended-ceph-exporter to Kubernetes
 
-![Version: 1.2.7](https://img.shields.io/badge/Version-1.2.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
+![Version: 1.2.8](https://img.shields.io/badge/Version-1.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -28,6 +28,7 @@ _See [configuration](#configuration) below._
 _See [helm install](https://helm.sh/docs/helm/helm_install/) for command documentation._
 
 ### Development Build
+
 To deploy from a local build from your development environment:
 
 ```console
