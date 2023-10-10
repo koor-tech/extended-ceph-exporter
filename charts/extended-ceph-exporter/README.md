@@ -2,7 +2,7 @@
 
 A Helm chart for deploying the extended-ceph-exporter to Kubernetes
 
-![Version: 1.2.8](https://img.shields.io/badge/Version-1.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.2](https://img.shields.io/badge/AppVersion-v1.0.2-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -56,6 +56,10 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | affinity | object | `{}` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) |
 | autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Autoscaling configuration |
 | config.rgw.accessKey | string | Randomly generated | RGW admin access key |
+| config.rgw.existingSecret | object | `{"keys":{"access":"access","secret":"secret"},"name":""}` | Existing RGW admin credentials secret config |
+| config.rgw.existingSecret.keys.access | string | `"access"` | Access key secret key name |
+| config.rgw.existingSecret.keys.secret | string | `"secret"` | Secret key secret key name |
+| config.rgw.existingSecret.name | string | `""` | Name of the existing RGW admin credentials secret |
 | config.rgw.host | string | First detected RGW endpoint | The Ceph RGW endpoint as a URL, e.g. "https://your-ceph-rgw-endpoint-here:8443" |
 | config.rgw.secretKey | string | Randomly generated | RGW admin secret key |
 | fullnameOverride | string | `""` | Override fully-qualified app name |

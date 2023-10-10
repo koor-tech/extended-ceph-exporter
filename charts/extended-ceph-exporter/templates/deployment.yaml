@@ -37,6 +37,19 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "extended-ceph-exporter.fullname" . }}
+          {{- if .Values.config.rgw.existingSecret.name }}
+          env:
+            - name: CEPH_METRICS_RGW_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.rgw.existingSecret.name | quote }}
+                  key: {{ .Values.config.rgw.existingSecret.keys.access | quote }}
+            - name: CEPH_METRICS_RGW_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.rgw.existingSecret.name | quote }}
+                  key: {{ .Values.config.rgw.existingSecret.keys.secret | quote }}
+          {{- end }}
           ports:
             - name: http-metrics
               containerPort: 9138

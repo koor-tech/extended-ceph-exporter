@@ -89,18 +89,28 @@ spec:
             - name: CEPH_METRICS_RGW_HOST
               valueFrom:
                 secretKeyRef:
-                 name: {{ include "extended-ceph-exporter.fullname" . }}
-                 key: CEPH_METRICS_RGW_HOST
+                  name: {{ include "extended-ceph-exporter.fullname" . }}
+                  key: CEPH_METRICS_RGW_HOST
             - name: RGW_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                 name: {{ include "extended-ceph-exporter.fullname" . }}
-                 key: CEPH_METRICS_RGW_ACCESS_KEY
+                {{- if .Values.config.rgw.existingSecret.name }}
+                  name: {{ .Values.config.rgw.existingSecret.name | quote }}
+                  key: {{ .Values.config.rgw.existingSecret.keys.access | quote }}
+                {{ else }}
+                  name: {{ include "extended-ceph-exporter.fullname" . }}
+                  key: CEPH_METRICS_RGW_ACCESS_KEY
+                {{- end }}
             - name: RGW_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                 name: {{ include "extended-ceph-exporter.fullname" . }}
-                 key: CEPH_METRICS_RGW_SECRET_KEY
+                {{- if .Values.config.rgw.existingSecret.name }}
+                  name: {{ .Values.config.rgw.existingSecret.name | quote }}
+                  key: {{ .Values.config.rgw.existingSecret.keys.secret | quote }}
+                {{ else }}
+                  name: {{ include "extended-ceph-exporter.fullname" . }}
+                  key: CEPH_METRICS_RGW_SECRET_KEY
+                {{- end }}
           command:
             - /bin/bash
             - -c
