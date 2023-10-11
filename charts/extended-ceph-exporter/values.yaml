@@ -114,6 +114,15 @@ config:
     # -- The Ceph RGW endpoint as a URL, e.g. "https://your-ceph-rgw-endpoint-here:8443"
     # @default -- First detected RGW endpoint
     host: ""
+    # -- Existing RGW admin credentials secret config
+    existingSecret:
+      # -- Name of the existing RGW admin credentials secret
+      name: ""
+      keys:
+        # -- Access key secret key name
+        access: "access"
+        # -- Secret key secret key name
+        secret: "secret"
     # -- RGW admin access key
     # @default -- Randomly generated
     accessKey: null
