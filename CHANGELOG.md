@@ -1,5 +1,7 @@
-## ?? / 2022-11-15
+## 1.0.3 / 2023-10-18
 
+* [CHORE] Update ceph-go library to 0.24.0
+* [FEATURE] helm: add option to use an existing secret for rgw credentials
 * [CHORE] Use [helm-docs](https://github.com/norwoodj/helm-docs) to create chart documentation
 * [FEATURE] Autodetect the RGW host and autogenerate the RGW access key and secret
 
