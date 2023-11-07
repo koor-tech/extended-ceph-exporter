@@ -94,6 +94,8 @@ serviceMonitor:
   #   any: true
   # -- (duration) Interval at which metrics should be scraped
   scrapeInterval: 30s
+  # -- (duration) Timeout for scraping
+  scrapeTimeout: 20s
   # honorLabels: true
 
 prometheusRule:

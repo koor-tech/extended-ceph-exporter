@@ -84,4 +84,5 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | serviceMonitor.enabled | bool | `false` | Specifies whether a prometheus-operator ServiceMonitor should be created |
 | serviceMonitor.namespaceSelector | string | `nil` |  |
 | serviceMonitor.scrapeInterval | duration | `"30s"` | Interval at which metrics should be scraped |
+| serviceMonitor.scrapeTimeout | duration | `"20s"` | Timeout for scraping |
 | tolerations | list | `[]` | [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
