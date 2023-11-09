@@ -2,7 +2,7 @@
 
 A Helm chart for deploying the extended-ceph-exporter to Kubernetes
 
-![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.3](https://img.shields.io/badge/AppVersion-v1.0.3-informational?style=flat-square)
+![Version: 1.3.2](https://img.shields.io/badge/Version-1.3.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.3](https://img.shields.io/badge/AppVersion-v1.0.3-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -84,4 +84,5 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 | serviceMonitor.enabled | bool | `false` | Specifies whether a prometheus-operator ServiceMonitor should be created |
 | serviceMonitor.namespaceSelector | string | `nil` |  |
 | serviceMonitor.scrapeInterval | duration | `"30s"` | Interval at which metrics should be scraped |
+| serviceMonitor.scrapeTimeout | duration | `"20s"` | Timeout for scraping |
 | tolerations | list | `[]` | [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
