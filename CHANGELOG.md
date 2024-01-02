@@ -1,3 +1,9 @@
+## 1.1.0 / 2024-01-02
+
+* [CHORE] Update ceph-go library to 0.25.0
+* [CHORE] Update Prometheus client library
+* [FEATURE] Add `serviceMonitor.scrapeTimeout` option to Helm chart
+
 ## 1.0.3 / 2023-10-18
 
 * [CHORE] Update ceph-go library to 0.24.0
