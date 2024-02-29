@@ -1,3 +1,9 @@
+## 1.2.0 / 2024-02-29
+
+* [CHORE] Update ceph-go library to 0.26.0
+* [CHORE] Update Prometheus client libraries
+* [CHORE] Update Golang version to 1.21.x
+
 ## 1.1.0 / 2024-01-02
 
 * [CHORE] Update ceph-go library to 0.25.0
