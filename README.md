@@ -69,7 +69,7 @@ below list all existing collectors and the required Ceph components.
 
 ### Requirements
 
-* Golang 1.19
+* Golang 1.21.x
 * Depending on the module requirements, a Ceph cluster with the respective Ceph components.
 
 ### Making Changes to the Helm Chart
