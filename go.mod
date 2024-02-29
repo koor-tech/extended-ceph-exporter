@@ -1,8 +1,6 @@
 module github.com/koor-tech/extended-ceph-exporter
 
-go 1.21
-
-toolchain go1.22.0
+go 1.21.7
 
 require (
 	github.com/ceph/go-ceph v0.26.0
