@@ -5,7 +5,7 @@ To create a new release (example is for release `v0.1.2`):
 1. Increase the version according to Semantic Versioning in the [`VERSION` file](VERSION).
 2. Add a new entry to the [`CHANGELOG.md`](CHANGELOG.md) with the changes and improvements listed in it.
 3. Set the new version, which will be the new container image tag, in [the `Chart.yaml` of the Helm chart here](charts/extended-ceph-exporter/Chart.yaml#L24) (`appVersion:` field).
-4. If the [helm chart vlues](charts/extended-ceph-exporter/values.yaml) or documentation is updated, please [run helm-docs](#running-helm-docs)
+4. If the [helm chart vlues](charts/extended-ceph-exporter/values.yaml) or documentation is updated, please [run helm-docs](#running-helm-docs) (`make helm-docs`).
 5. Check out a new branch, which will be used for the pull request to update the version: `git checkout -b BRANCH_NAME`
 6. Commit these changes now using `git commit -s -S`.
 7. Push the branch using `git push -u origin BRANCH_NAME` with these changes and create a pull request on [GitHub](https://github.com/koor-tech/extended-ceph-exporter).
